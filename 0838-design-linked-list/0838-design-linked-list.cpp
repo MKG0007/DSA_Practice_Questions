@@ -1,14 +1,13 @@
 
-class Node{
-    public:
+class Node {
+public:
     int data;
     Node* next;
-
-    Node(int val){
+    
+    Node(int val) {
         data = val;
         next = NULL;
     }
-
 };
 
 class MyLinkedList {
@@ -23,24 +22,20 @@ public:
     }
     
     int get(int index) {
-        if(index<0 || index>size){
-            return -1;
-        }
+        if (index < 0 || index >= size) return -1; // Fix index bounds check
+        
         Node* temp = head;
-        for(int i = 0 ; i<index ; i++){
+        for (int i = 0; i < index; i++) {
             temp = temp->next;
         }
         return temp->data;
-        
     }
     
     void addAtHead(int val) {
         Node* newNode = new Node(val);
-
-        if(head == NULL){
+        if (head == NULL) {
             head = tail = newNode;
-        }
-        else{
+        } else {
             newNode->next = head;
             head = newNode;
         }
@@ -49,56 +44,75 @@ public:
     
     void addAtTail(int val) {
         Node* newNode = new Node(val);
-
-        if(head == NULL){
+        if (head == NULL) {
             head = tail = newNode;
-        }
-        else{
+        } else {
             tail->next = newNode;
             tail = newNode;
         }
         size++;
-        
     }
     
     void addAtIndex(int index, int val) {
-        if(index == 0){
+        if (index < 0 || index > size) return; // Fix invalid index check
+        if (index == 0) {
             addAtHead(val);
-        }
-        else if(index<0 || index>size){
             return;
         }
+        if (index == size) {
+            addAtTail(val);
+            return;
+        }
+
         Node* newNode = new Node(val);
         Node* temp = head;
-        for(int i = 0 ; i<index-1 ; i++){
+        for (int i = 0; i < index - 1; i++) {
             temp = temp->next;
         }
         newNode->next = temp->next;
         temp->next = newNode;
         size++;
-        
     }
     
     void deleteAtIndex(int index) {
-        if(head == NULL || index <0 || index>=size){
+        if (index < 0 || index >= size) return; // Fix invalid index check
+        
+        Node* temp = head;
+        
+        // Case: Delete head
+        if (index == 0) {
+            head = head->next;
+            delete temp;
+            size--;
+            if (size == 0) tail = NULL; // If list becomes empty, reset tail
             return;
         }
 
-        Node* temp = head;
-        for(int i = 0 ; i<index-1 ; i++){
+        // Traverse to the node before the one to be deleted
+        Node* prev = NULL;
+        for (int i = 0; i < index; i++) {
+            prev = temp;
             temp = temp->next;
         }
-        Node* dnode = temp ->next;
-        if(dnode->next == NULL){
-            temp->next = NULL;
-        }
-        else{
-            temp->next = dnode->next;
-            dnode->next = NULL;
-        } 
-        delete dnode;
-        size--;
         
+        prev->next = temp->next;
+
+        // If deleting the last node, update tail
+        if (index == size - 1) {
+            tail = prev;
+        }
+        
+        delete temp;
+        size--;
+    }
+
+    void printList() { // Utility function for debugging
+        Node* temp = head;
+        while (temp) {
+            cout << temp->data << " -> ";
+            temp = temp->next;
+        }
+        cout << "NULL" << endl;
     }
 };
 
