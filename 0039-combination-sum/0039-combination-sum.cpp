@@ -7,12 +7,12 @@ public:
             }
             return;
         }
-        if(target<0) return;
-        
+        if(arr[index]<=target){
         group.push_back(arr[index]);
         findGroup(arr , ans , group , index , target-arr[index]);
 
         group.pop_back();
+        }
         findGroup(arr , ans , group , index+1 , target);
 
         
