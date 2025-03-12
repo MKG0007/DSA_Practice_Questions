@@ -1,7 +1,13 @@
 class Solution {
 public:
     int maximumCount(vector<int>& nums) {
-        // if(nums.size() == 1) return 1;
+        if(nums.size() == 1){
+            if(nums[0] == 0){
+                return 0;
+            }
+            return 1;
+        }
+
         int countNegative = 0;
         int countPositive = 0;
         int check = 0;
