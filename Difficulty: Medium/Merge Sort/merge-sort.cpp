@@ -8,45 +8,50 @@ using namespace std;
 class Solution {
   public:
   
-    void mergeParts(vector<int>&arr , int low , int mid , int high){
-        vector<int> temp;
-        int i = low;
-        int j = mid+1;
-        
-        while(i<=mid && j<=high){
-            if(arr[i]<=arr[j]){
-                temp.push_back(arr[i]);
-                i++;
-            }
-            else{
-                temp.push_back(arr[j]);
-                j++;
-            }
-        }
-        
-        while(i<=mid) {
-            temp.push_back(arr[i]);
-            i++;
-        }
-        
-        while(j<=high){
-            temp.push_back(arr[j]);
-            j++;
-        }
-        
-        for(int i = low ; i<=high ; i++){
-            arr[i] = temp[i-low];
-        }
-        
-    }
+  void merge(vector<int> &arr , int low , int mid , int high){
+      int i = low;
+      int j = mid+1;
+      vector<int> temp;
+      while(i<=mid && j<=high){
+          if(arr[i]<=arr[j]){
+              temp.push_back(arr[i]);
+              i++;
+          }
+          else{
+              temp.push_back(arr[j]);
+              j++;
+          }
+      }
+      
+      while(i<=mid){
+          temp.push_back(arr[i]);
+          i++;
+      }
+      
+      while(j<=high){
+          temp.push_back(arr[j]);
+          j++;
+      }
+      
+      for(int i = low ; i<=high ; i++){
+          arr[i] = temp[i-low];
+      }
+      
+  }
+  
+  
+  void msort(vector<int> &arr , int low , int high){
+      if(low>=high){
+          return;
+      }
+      int mid = (low+high)/2;
+      msort(arr , low , mid);
+      msort(arr , mid+1 , high);
+      
+      merge(arr , low , mid , high);
+  }
     void mergeSort(vector<int>& arr, int l, int r) {
-        if(l>=r) return ;
-        
-        int mid = (l+r)/2;
-        
-        mergeSort(arr , l , mid);
-        mergeSort(arr , mid+1 , r);
-        mergeParts(arr , l  , mid , r);
+        msort(arr , l , r);
     }
 };
 
