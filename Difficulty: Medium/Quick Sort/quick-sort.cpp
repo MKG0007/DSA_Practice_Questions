@@ -16,11 +16,13 @@ class Solution {
   public:
     // Function to sort an array using quick sort algorithm.
     void quickSort(vector<int>& arr, int low, int high) {
+        // code here
+        
         if(low<high){
-            int pindex = partition(arr , low , high);
+            int part = partition(arr , low , high);
             
-            quickSort(arr , low , pindex-1);
-            quickSort(arr , pindex+1 , high);
+            quickSort(arr , low , part-1);
+            quickSort(arr , part+1 , high);
             
         }
     }
@@ -30,6 +32,7 @@ class Solution {
     // its correct position in sorted array, and places all smaller elements
     // to left of pivot and all greater elements to right of pivot.
     int partition(vector<int>& arr, int low, int high) {
+        // code here
         int i = low;
         int j = high;
         int pivot = arr[low];
