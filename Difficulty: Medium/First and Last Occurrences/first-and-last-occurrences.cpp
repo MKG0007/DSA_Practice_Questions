@@ -8,42 +8,25 @@ using namespace std;
 
 class Solution {
   public:
+  
+    void firstLast(vector<int> &arr , int x , vector<int> &ans , int i){
+        if(i>=arr.size() || i<0){
+            return;
+        }
+        
+        if(arr[i] == x){
+            ans[1] = i;
+        }
+        firstLast(arr , x , ans , i+1);
+        // firstLast(arr , x , ans , i-1 , index);
+        if(arr[i] == x){
+            ans[0] = i;
+        }
+        
+    }
     vector<int> find(vector<int>& arr, int x) {
-        int start = 0 ;
-        int end = arr.size()-1;
         vector<int> ans(2 , -1);
-        while(start<=end){
-            int mid = start + (end-start)/2;
-            
-            if(arr[mid] == x){
-                ans[0] = mid;
-                end = mid-1;
-            }
-            else if(arr[mid]>x){
-                end = mid-1;
-            }
-            else{
-                start = mid+1;
-            }
-        }
-        
-        start = 0;
-        end = arr.size()-1;
-        
-            while(start<=end){
-            int mid = start + (end-start)/2;
-            
-            if(arr[mid] == x){
-                ans[1] = mid;
-                start = mid+1;
-            }
-            else if(arr[mid]>x){
-                end = mid-1;
-            }
-            else{
-                start = mid+1;
-            }
-        }
+        firstLast(arr , x , ans , 0);
         return ans;
     }
 };
