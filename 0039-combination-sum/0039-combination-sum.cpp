@@ -1,27 +1,28 @@
 class Solution {
 public:
-    void findGroup(vector<int> &arr , vector<vector<int>> &ans , vector<int> &group , int index , int target){
-        if(index >= arr.size()){
+
+    void findCombinations(vector<int> &arr , vector<vector<int>> &ans , vector<int> &temp , int index , int target){
+        if(target<=0 || index >= arr.size()){
             if(target == 0){
-                ans.push_back(group);
+                ans.push_back(temp);
             }
             return;
         }
+
         if(arr[index]<=target){
-        group.push_back(arr[index]);
-        findGroup(arr , ans , group , index , target-arr[index]);
-
-        group.pop_back();
+            temp.push_back(arr[index]);
+            findCombinations(arr , ans , temp , index , target-arr[index]);
+            temp.pop_back();
         }
-        findGroup(arr , ans , group , index+1 , target);
+            findCombinations(arr , ans , temp , index+1 , target);
 
-        
     }
-    
-    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+    vector<vector<int>> combinationSum(vector<int>& arr, int target) {
+        vector<int> combination;
         vector<vector<int>> ans;
-        vector<int> group;
-        findGroup(candidates , ans , group , 0 , target);
+
+        findCombinations(arr , ans , combination , 0 , target);
         return ans;
+        
     }
 };
