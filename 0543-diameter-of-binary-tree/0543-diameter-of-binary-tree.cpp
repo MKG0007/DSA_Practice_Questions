@@ -11,29 +11,23 @@
  */
 class Solution {
 public:
-    //broot force
-    int findDiameter(TreeNode* root , int &dSize){
-        if(root == NULL){
-            return 0;
-        }
 
-        int leftHeight = findDiameter(root->left , dSize);
-        int rightHeight = findDiameter(root->right , dSize);
+    int findTheDaimeter(TreeNode* root , int &daimeter){
+        if(root == NULL) return 0;
 
-        dSize = max(dSize , leftHeight + rightHeight);
-        return 1+ max(leftHeight , rightHeight);
+        int lh = findTheDaimeter(root->left , daimeter);
+        int rh = findTheDaimeter(root->right , daimeter);
 
+        daimeter = max(daimeter , lh+rh);
+
+        return 1+ max(lh , rh);
     }
-
-
-
     int diameterOfBinaryTree(TreeNode* root) {
-        int dLength = 0;
 
-        findDiameter(root , dLength);
+        int daimeter = INT_MIN;
 
-        return dLength;
-
+        findTheDaimeter(root , daimeter);
+        return daimeter;
         
     }
 };
