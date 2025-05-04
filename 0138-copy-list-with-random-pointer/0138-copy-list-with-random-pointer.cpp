@@ -22,7 +22,7 @@ public:
         Node* oldtemp = head->next;
         Node* newtemp = newhead;
         unordered_map<Node* , Node*> m;
-        m[head] = newhead;
+        m[head] = newtemp;
     
         while(oldtemp != NULL){
             Node* newNode = new Node(oldtemp->val);
