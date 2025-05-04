@@ -26,9 +26,9 @@ public:
     
         while(oldtemp != NULL){
             Node* newNode = new Node(oldtemp->val);
+            m[oldtemp] = newNode;
             newtemp->next = newNode;
             newtemp = newtemp->next;
-            m[oldtemp] = newtemp;
             oldtemp = oldtemp->next;
 
         }
