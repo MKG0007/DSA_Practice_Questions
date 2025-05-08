@@ -10,37 +10,34 @@ public:
 */
 
 class Solution {
-
 public:
-    Node* flatten(Node* head) {
+    Node* workFlatten(Node* head){
         if(head == NULL) return head;
+        Node* temp = head;
 
-
-        Node* crr = head;
-
-        while(crr != NULL){
-            if(crr->child != NULL){
-                //flatten the child node
-                Node* next = crr->next;
-                crr->next = flatten(crr->child);
-                crr->next->prev = crr;
-                crr->child = NULL;
-
-                //find tail
-                while(crr->next != NULL){
-                    crr = crr->next;
+        while(temp != NULL){
+            if(temp->child != NULL){
+                Node* tNext = temp->next;
+                temp->next = workFlatten(temp->child);
+                temp->next->prev = temp;
+                temp->child = NULL;
+                while(temp->next != NULL){
+                    temp = temp->next;
                 }
-
-                //attach tail with next ptr
-                if(next != NULL){
-                    crr->next = next;
-                    next->prev = crr;
-
+                if(tNext != NULL){
+                    temp->next = tNext;
+                    tNext->prev = temp;
                 }
-
             }
-            crr = crr->next;
+            temp = temp->next;
         }
         return head;
+    }
+    Node* flatten(Node* head) {
+
+        return workFlatten(head);
+
+
+        
     }
 };
