@@ -24,7 +24,7 @@ public:
             }
             else{
                 m[temp->val] = temp;
-            temp = temp->next;
+                temp = temp->next;
             }
         }
 
