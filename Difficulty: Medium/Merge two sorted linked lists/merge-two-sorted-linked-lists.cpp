@@ -54,41 +54,17 @@ struct Node {
 class Solution {
   public:
     Node* sortedMerge(Node* head1, Node* head2) {
-        Node* temp1 = head1;
-        Node* temp2 = head2;
+        if(head1 == NULL) return head2;
+        if(head2 == NULL) return head1;
         
-        Node* newhead = new Node(10);
-        Node* tempnew = newhead;
-        
-        while(temp1 != NULL && temp2 != NULL){
-            if(temp1->data > temp2->data){
-                tempnew->next = temp2;
-                tempnew = tempnew->next;
-                temp2 = temp2->next;
-            }
-            else{
-                tempnew->next = temp1;
-                tempnew = tempnew->next;
-                temp1 = temp1->next;
-                
-            }
+        if(head1->data<=head2->data){
+            head1->next = sortedMerge(head1->next , head2);
+            return head1;
         }
-        
-        while(temp1 != NULL){
-                tempnew->next = temp1;
-                tempnew = tempnew->next;
-                temp1 = temp1->next;
-            
+        else{
+            head2->next = sortedMerge(head1 , head2->next);
+            return head2;
         }
-        
-        while(temp2 != NULL){
-                tempnew->next = temp2;
-                tempnew = tempnew->next;
-                temp2 = temp2->next;
-            
-        }
-        
-        return newhead->next;
         
     }
 };
