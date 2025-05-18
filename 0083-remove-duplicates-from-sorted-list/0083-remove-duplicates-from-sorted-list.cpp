@@ -11,24 +11,23 @@
 class Solution {
 public:
     ListNode* deleteDuplicates(ListNode* head) {
-        if(head == NULL) return head;
-        unordered_map<int , ListNode*> m;
-        ListNode* temp = head;
+        if(head == NULL || head->next == NULL){
+            return head;
+        }
+        
+        ListNode* prev = head;
+        ListNode* temp = head->next;
+        
         while(temp != NULL){
-            if(m.find(temp->val) != m.end()){
-                ListNode* dnode = temp;
-                m[temp->val]->next = dnode->next;
-                temp  = temp->next;
-                dnode->next = NULL;
-                delete dnode;
+            if(prev->val == temp->val){
+                prev->next = temp->next;
             }
             else{
-                m[temp->val] = temp;
-                temp = temp->next;
+                prev = temp;
             }
+            temp = temp->next;
         }
-
-        return head;
         
+        return head;
     }
 };
