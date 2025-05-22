@@ -1,36 +1,40 @@
 class Solution {
 public:
-    bool check(char ch){
-        if(ch == '{' || ch == '(' || ch == '['){
+    bool checkOpening(char ch){
+        if(ch == '{' || ch == '[' || ch == '('){
             return true;
         }
         return false;
     }
-
     bool isValid(string s) {
-
-        unordered_map<char , char> m;
-        m['{'] = '}';
-        m['['] = ']';
-        m['('] = ')';
+        int size = s.length();
 
         stack<char> st;
 
-        for(int i = 0 ; i<s.length() ; i++){
-            if(check(s[i])){
+        for(int i = 0 ; i<size ; i++){
+            if(checkOpening(s[i])){
                 st.push(s[i]);
             }
             else{
-                if(st.empty() || m[st.top()] != s[i]){
+                if(st.empty()){
                     return false;
                 }
-                st.pop();
+                else{
+                    if(st.top() == '{' && s[i] == '}' || st.top() == '[' && s[i] == ']' || st.top() == '(' && s[i] == ')'){
+                        st.pop();
+                    }
+                    else{
+                        return false;
+                    }
+                }
             }
         }
 
         if(!st.empty()){
             return false;
         }
+
         return true;
+        
     }
 };
