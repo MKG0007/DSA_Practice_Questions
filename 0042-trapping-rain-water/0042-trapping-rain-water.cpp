@@ -18,7 +18,7 @@ public:
         int total = 0;
 
         for(int i = 0 ; i<size ; i++){
-            total += abs(min(leftMax[i] , rightMax[i]) - h[i]);
+            total += min(leftMax[i] , rightMax[i]) - h[i];
         }
 
         return total;
