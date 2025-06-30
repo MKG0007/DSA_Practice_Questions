@@ -1,47 +1,44 @@
 class Solution {
 public:
-    void fnBfs(vector<vector<char>>& grid , pair<int , int> node, vector<vector<int>>& visited){
-        visited[node.first][node.second] = 1;
+    void bfs(vector<vector<char>>& grid, vector<vector<int>> &vis, int i, int j,
+             vector<pair<int, int>>& dec) {
+        vis[i][j] = 1;
 
-        vector<pair<int , int>> d = {{-1 , 0} , {1 , 0} , {0 , -1} , {0 , 1}};
+        queue<pair<int, int>> q;
+        q.push({i, j});
 
-        queue<pair<int , int>> q;
-        q.push(node);
-
-        while(!q.empty()){
-            auto node = q.front();
+        while (!q.empty()) {
+            int ni = q.front().first;
+            int nj = q.front().second;
             q.pop();
 
-            for(auto dd : d){
-                int di = dd.first+node.first;
-                int dj = dd.second+node.second;
-                if(di>=0 && di<grid.size() && dj>=0 && dj<grid[0].size() && !visited[di][dj]){
-                    if(grid[di][dj] == '1'){
-                    q.push({di , dj});
-                    }
-                    visited[di][dj] = 1;
+            for (auto d : dec) {
+                int di = ni + d.first;
+                int dj = nj + d.second;
+                if (di >= 0 && dj >= 0 && di < grid.size() &&
+                    dj < grid[0].size() && !vis[di][dj] &&
+                    grid[di][dj] == '1') {
+                    vis[di][dj] = 1;
+                    q.push({di, dj});
                 }
             }
         }
-
     }
-
     int numIslands(vector<vector<char>>& grid) {
-        int vertex = grid.size();
-        int edge = grid[0].size();
-        vector<vector<int>> visited(vertex , vector<int>(edge , 0));
+        int row = grid.size();
+        int col = grid[0].size();
+        vector<pair<int, int>> dec = {{0, 1}, {1, 0}, {-1, 0}, {0, -1}};
+        vector<vector<int>> vis(row, vector<int>(col, 0));
         int count = 0;
-        for(int i = 0 ; i<vertex ; i++){
-            for(int j = 0 ; j<edge ; j++){
-                if(!visited[i][j] && grid[i][j] == '1'){
-                    fnBfs(grid , {i , j} , visited);
-                    count++;
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (!vis[i][j] && grid[i][j] == '1') {
 
+                    bfs(grid, vis, i, j, dec);
+                    count++;
                 }
             }
         }
-
         return count;
-        
     }
 };
