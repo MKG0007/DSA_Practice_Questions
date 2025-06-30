@@ -1,65 +1,59 @@
 class Solution {
 public:
+    int orangesRotting(vector<vector<int>>& grid) {
 
-    int  fnBfs(vector<vector<int>>& grid , vector<vector<int>>& visited , queue<pair<int , int>> &rotten , vector<pair<int , int>> dec , int fCount ){
+        int row = grid.size();
+        int col = grid[0].size();
+        if(row == 1 && col == 1){
+            return 0;
+        }
 
-        int time = -1;
 
-        while(!rotten.empty()){
-            int size = rotten.size();
+        int totalFreshOrange = 0;
+        vector<vector<int>> vis(row , vector<int>(col , 0));
+        queue<pair<int , int>> q;
+        vector<pair<int , int>> dec = {{0 , 1} , {1 , 0} , {-1 , 0} , {0 , -1}};
+
+        for(int i = 0 ; i<row ; i++){
+            for(int j = 0 ; j<col ; j++){
+                if(grid[i][j] == 2){
+                    vis[i][j] = 1;
+                    q.push({i , j});
+                }
+                else if(grid[i][j] == 1){
+                    totalFreshOrange++;
+                }
+            }
+        }
+
+        if(totalFreshOrange == 0) return 0;
+
+        int min = -1;
+        while(!q.empty()){
+            int size = q.size();
+            min++;
             for(int i = 0 ; i<size ; i++){
-                auto rot = rotten.front();
-                rotten.pop();
+                auto node = q.front();
+                q.pop();
                 for(auto d : dec){
-                    int dx = d.first + rot.first;
-                    int dy = d.second + rot.second;
+                    int di = d.first + node.first;
+                    int dj = d.second + node.second;
 
-                    if(dx>=0 && dy>=0 && dx<grid.size() && dy<grid[0].size() && !visited[dx][dy] && grid[dx][dy] == 1){
-                        grid[dx][dy] = 2;
-                        rotten.push({dx , dy});
-                        visited[dx][dy] = 1;
-                        fCount--;
+                    if(di>=0 && dj>=0 && di<row && dj<col && !vis[di][dj] && grid[di][dj] == 1){
+                        vis[di][dj] = 1;
+                        grid[di][dj] = 2;
+                        q.push({di , dj});
+                        totalFreshOrange--;
                     }
                 }
-            }
-            time++;
 
-
-        }
-            if(fCount != 0){
-                return -1;
-            }
-
-            return time;
-    }
-
-    int orangesRotting(vector<vector<int>>& grid ) {
-
-        int vertex = grid.size();
-        int edge = grid[0].size();
-        
-
-        vector<vector<int>> vis(vertex , vector<int>(edge , 0));
-        int freshCount = 0;
-        queue<pair<int , int>> rotten;
-        vector<pair<int , int>> dec = {{1 , 0} , {0 , 1} , {-1 , 0} , {0 , -1}};
-
-
-        for(int i =0  ; i<vertex ; i++){
-            for(int j = 0 ; j<edge ; j++){
-                if(grid[i][j] == 1){
-                    freshCount++;
-                }
-                else if(grid[i][j] == 2){
-                    rotten.push({i , j});
-                    vis[i][j] = 1;
-                }
             }
         }
-        if(freshCount == 0) return 0;
 
-       return fnBfs(grid , vis , rotten , dec , freshCount);
-
+        if(totalFreshOrange>0){
+            return -1;
+        }
+        return min;
 
         
     }
