@@ -1,49 +1,50 @@
 class Solution {
   public:
   
-    bool isCheck(unordered_map<int , vector<int>> &adj , int node , vector<int> &visited){
+    bool bfs(unordered_map<int ,vector<int>> &adj  , vector<int> &vis , int node){
+        vis[node] = 1;
         queue<pair<int , int>> q;
         q.push({node , -1});
-        visited[node] = 1;
-        
         while(!q.empty()){
-            int node = q.front().first;
-            int parent = q.front().second;
+            auto n = q.front();
             q.pop();
-            for(int ele : adj[node]){
-                if(!visited[ele]){
-                    visited[ele] = 1;
-                    q.push({ele , node});
+            
+            for(int ele : adj[n.first]){
+                if(!vis[ele]){
+                    vis[ele] = 1;
+                    q.push({ele , n.first});
                 }
-                else if(parent != ele){
+                else if(n.second != ele){
                     return true;
                 }
             }
         }
         return false;
-        
     }
     bool isCycle(int V, vector<vector<int>>& edges) {
+        
         unordered_map<int , vector<int>> adj;
-        for(auto edge : edges){
-            int v = edge[0];
-            int u = edge[1];
+        
+        for(int i = 0 ; i < edges.size() ; i++){
+            int u = edges[i][0];
+            int v = edges[i][1];
             
-            adj[v].push_back(u);
             adj[u].push_back(v);
-        }
-        
-        vector<int> visited(V , 0);
-        
-        for(int i = 0 ; i<V ; i++){
-            if(!visited[i]){
-            if(isCheck(adj , i , visited)){
-                return true;
-            }
-            }
+            adj[v].push_back(u);
             
+            
+        }
+        vector<int> vis(V , 0);
+        for(int i = 0 ; i<V ; i++){
+            if(!vis[i]){
+                if(bfs(adj , vis , i) == true) return true;
+            }
         }
         
         return false;
+        
+        
+        
+        
     }
 };
