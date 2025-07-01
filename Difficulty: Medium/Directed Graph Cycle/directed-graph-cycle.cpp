@@ -1,47 +1,38 @@
 class Solution {
   public:
+  
+    bool checkByDfs( unordered_map<int , vector<int>> &adj , vector<int> &vis , vector<int> &path , int node){
+        vis[node] = 1;
+        path[node] = 1;
+        
+        for(int ele : adj[node]){
+            if(!vis[ele]){
+                if(checkByDfs(adj , vis , path , ele)) return true;
+            }
+            else if(path[ele] == 1) return true;
+        }
+        path[node] = 0;
+        return false;
+    }
     bool isCyclic(int V, vector<vector<int>> &edges) {
         unordered_map<int , vector<int>> adj;
-        int v = V;
-        
-        for(auto edge : edges){
-            int u = edge[0];
-            int v = edge[1];
+        for(auto ele : edges){
+            int u = ele[0];
+            int v = ele[1];
             
             adj[u].push_back(v);
         }
         
-        vector<int> in(v , 0);
-        vector<int> ans;
-        queue<int> q;
+        vector<int> vis(V , 0);
+        vector<int> path(V , 0);
         
-        for(int i = 0 ; i<v ; i++){
-            for(int ele : adj[i]){
-                in[ele]++;
+        for(int i = 0 ; i<V ; i++){
+            if(!vis[i]){
+                if(checkByDfs(adj , vis , path , i)) return true;
             }
         }
         
-        for(int i = 0 ; i<v ; i++){
-            if(in[i] == 0){
-                q.push(i);
-            }
-        }
+        return false;
         
-        while(!q.empty()){
-            int node = q.front();
-            
-            q.pop();
-            ans.push_back(node);
-            
-            for(int ele : adj[node]){
-                in[ele]--;
-                if(in[ele] == 0) q.push(ele);
-            }
-        }
-        
-        if(ans.size() == v){
-            return false;
-        }
-        return true;
     }
 };
