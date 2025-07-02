@@ -1,44 +1,38 @@
 class Solution {
 public:
-    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
-        int row = graph.size();
 
-        unordered_map<int , vector<int>> adj;
-        vector<int> in(row , 0);
-        queue<int> q;
+    bool dfs(vector<vector<int>>& graph , vector<int> &vis , vector<int> &path , int node){
+        vis[node] = 1;
+        path[node] = 1;
+
+        for(int i : graph[node]){
+            if(!vis[i]){
+                if(dfs(graph , vis , path , i)) return true; 
+            }
+            else if(path[i] == 1) return true;
+        }
+
+        path[node] = 0;
+        return false;
+    }
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        int v = graph.size();
+
+        vector<int> vis(v , 0);
+        vector<int> path(v, 0);
         vector<int> ans;
 
-        for(int i = 0 ; i<row ; i++){
-            for(auto ele : graph[i]){
-                adj[ele].push_back(i);
+        for(int i = 0 ; i<v ; i++){
+            if(!vis[i]){
+                dfs(graph , vis , path, i);
             }
         }
-
-        for(int i = 0 ; i<row ; i++){
-            for(int ele : adj[i]){
-                in[ele]++;
+        for(int i = 0 ; i<v ; i++){
+            if(path[i] == 0){
+                ans.push_back(i);
             }
         }
-        for(int i = 0 ; i<row ; i++){
-            if(in[i] == 0){
-                q.push(i);
-            }
-        }
-
-        while(!q.empty()){
-            int node = q.front();
-            ans.push_back(node);
-
-            q.pop();
-            for(int ele : adj[node]){
-                in[ele]--;
-                if(in[ele] == 0) q.push(ele);
-            }
-        }
-
-        sort(ans.begin() , ans.end());
 
         return ans;
-
     }
 };
