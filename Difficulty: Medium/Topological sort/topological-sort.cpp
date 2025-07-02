@@ -1,37 +1,45 @@
 class Solution {
   public:
-  
-  void dfs(unordered_map<int , vector<int>>& adj , vector<int>&vis , stack<int> &q , int node){
-      vis[node] = 1;
-      
-      for(int ele : adj[node]){
-          if(!vis[ele]){
-              dfs(adj , vis , q , ele);
-          }
-      }
-      
-        q.push(node);
-      
-  }
-    vector<int> topoSort(int v, vector<vector<int>>& edges) {
+    void topo(unordered_map<int , vector<int>> adj , vector<int> &vis , queue<int> &q , int node){
+        
+        
+    }
+    vector<int> topoSort(int V, vector<vector<int>>& edges) {
+        int v = V;
         unordered_map<int , vector<int>> adj;
-        vector<int> vis(v , 0);
-        stack<int> q;
-        vector<int> ans;
-        for(auto i : edges){
-            int u = i[0];
-            int v = i[1];
-            adj[u].push_back(v);
+        queue<int> q;
+        vector<int> inDegree(v , 0);
+        
+        
+        
+        
+        for(auto edge : edges){
+            int u = edge[0];
+            int vv = edge[1];
+            adj[u].push_back(vv);
+            inDegree[vv]++;
         }
         
         for(int i = 0 ; i<v ; i++){
-            if(!vis[i]){
-                dfs(adj , vis , q ,  i);
+            if(inDegree[i] == 0){
+                q.push(i);
             }
         }
+        
+        vector<int> ans;
+        
         while(!q.empty()){
-            ans.push_back(q.top());
+            int node = q.front();
             q.pop();
+            ans.push_back(node);
+            
+            for(int i : adj[node]){
+                inDegree[i]--;
+                
+                if(inDegree[i] == 0){
+                    q.push(i);
+                }
+            }
         }
         
         return ans;
