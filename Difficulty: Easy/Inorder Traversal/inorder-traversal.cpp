@@ -18,21 +18,24 @@ class Node {
 class Solution {
   public:
     // Function to return a list containing the inorder traversal of the tree.
-    void inOrder(Node* root , vector<int>&ans){
-        if(root == NULL){
-            return ;
-        }
-        
-        inOrder(root->left , ans);
-        ans.push_back(root->data);
-        inOrder(root->right , ans);
-    }
     vector<int> inOrder(Node* root) {
+        stack<Node*> st;
+        Node* temp = root;
         vector<int> ans;
-        if(root == NULL) return ans;
         
-        inOrder(root , ans);
+        while(true){
+            if(temp != NULL){
+                st.push(temp);
+                temp = temp->left;
+            }
+            else{
+                if(st.empty()) break;
+                temp = st.top();
+                st.pop();
+                ans.push_back(temp->data);
+                temp = temp->right;
+            }
+        }
         return ans;
-        
     }
 };
