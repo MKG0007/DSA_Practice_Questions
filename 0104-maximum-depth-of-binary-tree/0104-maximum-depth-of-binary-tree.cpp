@@ -11,21 +11,16 @@
  */
 class Solution {
 public:
-    void maxLength(TreeNode* root , int count , int &maxCount){
-        if (root == NULL) {
-            maxCount = max(count , maxCount);
-            return;
-        }
-
-        count++;
-        maxLength(root->left , count , maxCount);
-        maxLength(root->right , count , maxCount);
-        count--;
+    int calculate(TreeNode* root){
+        if(root == NULL) return 0;
+        
+        int l = calculate(root->left);
+        int r = calculate(root->right);
+        
+        return 1+ max(l , r);
     }
     int maxDepth(TreeNode* root) {
-        int ans = 0;
 
-        maxLength(root , 0 , ans);
-        return ans;
+        return calculate(root);
     }
 };
