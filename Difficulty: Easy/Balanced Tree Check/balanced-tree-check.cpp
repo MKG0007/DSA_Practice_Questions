@@ -17,33 +17,23 @@ class Node {
 
 class Solution {
   public:
-      int calculate(Node* root){
-        if(root == NULL) return 0;
-        
-        int l = calculate(root->left);
-        int r = calculate(root->right);
-        
-        return 1+ max(l , r);
-    }
-  bool check(Node* root){
-      if(root == NULL) return true;
+  
+  int check(Node* root){
+      if(root == NULL) return 0;
       
-      int l = calculate(root->left);
-      int r = calculate(root->right);
-      if(abs(l-r)>1) return false;
+      int l = check(root->left);
+      if(l == -1) return -1;
       
-      bool lh = check(root->left );
-      bool rh = check(root->right);
+      int r = check(root->right);
+      if(r == -1) return -1;
+      if(abs(l-r) > 1) return -1;
       
-      if(lh == false || rh == false) return false;
-      
-      return true;
-      
+      return 1+max(l , r);
   }
     bool isBalanced(Node* root) {
+    
+        if(check(root) == -1) return false;
         
-        
-        return check(root);
-        
+        return true;
     }
 };
