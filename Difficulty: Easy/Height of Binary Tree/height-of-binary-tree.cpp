@@ -13,18 +13,26 @@ public:
 */
 class Solution {
   public:
-    int calculate(Node* root){
-        if(root == NULL) return 0;
+  int height(Node* root) {
+        if(!root) return 0;
+        if(!root->left && !root->right) return 0;
         
-        int l = calculate(root->left);
-        int r = calculate(root->right);
+        queue<Node*> q;
+        q.push(root);
+        int height = -1;
+        while(!q.empty()){
+            int size = q.size();
+            
+            for(int i = 0 ; i<size ; i++){
+                Node* node = q.front();
+                q.pop();
+                
+                if(node->left) q.push(node->left);
+                if(node->right) q.push(node->right);
+            }
+            height++;
+        }
         
-        return 1+ max(l , r);
-    }
-    int height(Node* node) {
-        if(node == NULL) return 0;
-        
-        return calculate(node)-1;
-        
-    }
+        return height;
+  }
 };
