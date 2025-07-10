@@ -20,17 +20,18 @@ class Solution {
     // Function to return a list containing the preorder traversal of the tree.
     vector<int> preorder(Node* root) {
         vector<int> ans;
-        
         stack<Node*> st;
+        
         st.push(root);
         
         while(!st.empty()){
-            Node* n = st.top();
+            Node* node = st.top();
             st.pop();
-            ans.push_back(n->data);
+            ans.push_back(node->data);
             
-            if(n->right != NULL) st.push(n->right);
-            if(n->left != NULL) st.push(n->left);
+            if(node->right) st.push(node->right);
+            if(node->left) st.push(node->left);
+            
         }
         
         return ans;
