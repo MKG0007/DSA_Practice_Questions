@@ -1,35 +1,37 @@
 class Solution {
   public:
-    void setMatrixZeroes(vector<vector<int>> &matrix) {
+    void setMatrixZeroes(vector<vector<int>> &arr) {
         // code here
-        stack<pair<int , int>> st;
-        int row = matrix.size();
-        int col = matrix[0].size();
-
+        int row = arr.size();
+        int col = arr[0].size();
+        vector<pair<int , int>> mark;
+        
         for(int i = 0 ; i<row ; i++){
+            
             for(int j = 0 ; j<col ; j++){
-                if(matrix[i][j] == 0){
-                    st.push({i , j});
+                if(arr[i][j] == 0) {
+                    mark.push_back({i , j});
+                    
                 }
             }
         }
-
-        while(!st.empty()){
-            int i = st.top().first;
-            int j = st.top().second;
-            int tempi = 0;
-            int tempj = 0;
-            st.pop();
-
-            while(tempj != col){
-                matrix[i][tempj] = 0;
-                tempj++;
+        
+        for(auto ele : mark){
+            int i = ele.first;
+            int j = ele.second;
+            
+            for(int m = 0 ; m<row ; m++){
+                if(arr[m][j] != 0){
+                    arr[m][j] = 0;
+                }
             }
-
-            while(tempi != row){
-                matrix[tempi][j] = 0;
-                tempi++;
+            
+            for(int n = 0 ; n<col ; n++){
+                if(arr[i][n] != 0){
+                    arr[i][n] = 0;
+                }
             }
         }
+        
     }
 };
