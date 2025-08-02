@@ -1,20 +1,24 @@
 class Solution {
   public:
   
-    bool bfs(unordered_map<int ,vector<int>> &adj  , vector<int> &vis , int node){
+    bool check(unordered_map<int , vector<int>> &adj , vector<int> & vis , int node){
         vis[node] = 1;
+        
         queue<pair<int , int>> q;
         q.push({node , -1});
+        
         while(!q.empty()){
-            auto n = q.front();
+            int ele = q.front().first;
+            int parent = q.front().second;
             q.pop();
             
-            for(int ele : adj[n.first]){
-                if(!vis[ele]){
-                    vis[ele] = 1;
-                    q.push({ele , n.first});
+            for(int i : adj[ele]){
+                if(!vis[i]){
+                    vis[i] = 1;
+                    q.push({i , ele});
+                    
                 }
-                else if(n.second != ele){
+                else if(parent != i){
                     return true;
                 }
             }
@@ -22,29 +26,23 @@ class Solution {
         return false;
     }
     bool isCycle(int V, vector<vector<int>>& edges) {
-        
+        // Code here
         unordered_map<int , vector<int>> adj;
-        
-        for(int i = 0 ; i < edges.size() ; i++){
-            int u = edges[i][0];
-            int v = edges[i][1];
+        vector<int> visited(V , 0);
+        for(auto ele : edges){
+            int u = ele[0];
+            int v = ele[1];
             
             adj[u].push_back(v);
             adj[v].push_back(u);
-            
-            
         }
-        vector<int> vis(V , 0);
-        for(int i = 0 ; i<V ; i++){
-            if(!vis[i]){
-                if(bfs(adj , vis , i) == true) return true;
+        
+        for(int i ; i<V ; i++){
+            if(!visited[i]){
+                if(check(adj, visited , i)) return true;
             }
         }
         
         return false;
-        
-        
-        
-        
     }
 };
