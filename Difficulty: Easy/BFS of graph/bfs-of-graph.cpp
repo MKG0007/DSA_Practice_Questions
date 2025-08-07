@@ -1,30 +1,30 @@
 class Solution {
   public:
-    // Function to return Breadth First Traversal of given graph
-    void bfs(vector<vector<int>> &adjj , vector<int> &vis , vector<int> &ans , int node){
-            vis[node] = 1;
-            queue<int> q;
-            q.push(node);
-            
-            while(!q.empty()){
-                int n = q.front();
-                ans.push_back(n);
-                q.pop();
-                for(int i : adjj[n]){
-                    if(!vis[i]){
-                        vis[i] = 1;
-                        q.push(i);
-                    }
+    // Function to return Breadth First Traversal of given graph.
+    vector<int> bfs(vector<vector<int>> &adj) {
+        // Code here
+        int row = adj.size();
+        int col = adj[0].size();
+        
+        vector<int> vis(row , 0);
+        vector<int> ans;
+        queue<int> q;
+        q.push(0);
+        vis[0] = 1;
+        
+        while(!q.empty()){
+            int node = q.front();
+            q.pop();
+            ans.push_back(node);
+            for(int ele : adj[node]){
+                if(!vis[ele]){
+                    q.push(ele);
+                    vis[ele] = 1;
                 }
             }
-    }
+        }
         
-    vector<int> bfs(vector<vector<int>> &adj) {
-        vector<int> vis(adj.size() , 0);
-        vector<int> ans;
         
-        bfs(adj , vis , ans , 0);
         return ans;
-        
     }
 };
