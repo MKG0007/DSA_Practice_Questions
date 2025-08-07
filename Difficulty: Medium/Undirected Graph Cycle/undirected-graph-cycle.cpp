@@ -1,27 +1,17 @@
 class Solution {
   public:
   
-    bool check(unordered_map<int , vector<int>> &adj , vector<int> & vis , int node){
+    bool dfs(unordered_map<int , vector<int>> &adj , vector<int> & vis , int node , int parent){
         vis[node] = 1;
-        
-        queue<pair<int , int>> q;
-        q.push({node , -1});
-        
-        while(!q.empty()){
-            int ele = q.front().first;
-            int parent = q.front().second;
-            q.pop();
-            
-            for(int i : adj[ele]){
-                if(!vis[i]){
-                    vis[i] = 1;
-                    q.push({i , ele});
-                    
-                }
-                else if(parent != i){
-                    return true;
-                }
+        for(int ele : adj[node]){
+            if(!vis[ele]){
+                vis[ele] = 1;
+                if(dfs(adj , vis , ele , node)) return true;
             }
+            else if(parent != ele){
+                return true;
+            }
+            
         }
         return false;
     }
@@ -39,7 +29,7 @@ class Solution {
         
         for(int i ; i<V ; i++){
             if(!visited[i]){
-                if(check(adj, visited , i)) return true;
+                if(dfs(adj, visited , i , -1)) return true;
             }
         }
         
