@@ -2,44 +2,50 @@
 
 class Solution {
   public:
-  void fnDfs(vector<vector<int>>& grid , vector<vector<int>>& vis , vector<pair<int , int>> d , vector<pair<int , int>> &ans , int i , int j , int bi , int bj ){
-      
-      vis[i][j] = 1;
-      ans.push_back({i-bi , j-bj});
-      
-      
-      for(auto dd : d){
-          int di = dd.first + i;
-          int dj = dd.second + j;
-          
-          if(di>=0 && dj>=0 && di<grid.size() && dj<grid[0].size() && !vis[di][dj] && grid[di][dj] == 1){
-              fnDfs(grid , vis , d , ans , di , dj , bi , bj);
-          }
-      }
-      
-      
-      
-  }
-  
+    void bfs(vector<vector<int>> &grid , set<vector<pair<int , int>>> &ans , vector<vector<int>> &vis , pair<int , int> node){
+        int ni = node.first;
+        int nj = node.second;
+        
+        vis[ni][nj] = 1;
+        queue<pair<int , int>> q;
+        q.push({ni , nj});
+        vector<pair<int , int>> dis = {{1 , 0} , {0 , 1} , {-1 , 0} , {0 , -1}};
+        vector<pair<int , int>> temp;
+        
+        while(!q.empty()){
+            int i = q.front().first;
+            int j = q.front().second;
+            temp.push_back({i-ni , j-nj});
+            q.pop();
+            
+            for(auto d : dis){
+                int dx = d.first + i;
+                int dy = d.second + j;
+                
+                if(dx>=0 && dy>=0 && dx<grid.size() && dy<grid[0].size() && !vis[dx][dy] && grid[dx][dy] == 1){
+                    vis[dx][dy] = 1;
+                    q.push({dx , dy});
+                }
+            }
+            
+        }
+        ans.insert(temp);
+        
+    }
     int countDistinctIslands(vector<vector<int>>& grid) {
         int row = grid.size();
         int col = grid[0].size();
-        
+        set<vector<pair<int , int>>> ans;
         vector<vector<int>> vis(row , vector<int>(col , 0));
-        vector<pair<int , int>> d = {{0 , 1} , {-1 , 0} ,{1 , 0} , {0 , -1}};
-        set<vector<pair<int , int>>> s;
-        
-        
         for(int i = 0 ; i<row ; i++){
             for(int j = 0 ; j<col ; j++){
-                    vector<pair<int , int>> ans;
-                    if(!vis[i][j] && grid[i][j] == 1){
-                        fnDfs(grid , vis , d , ans , i , j , i , j);
-                        s.insert(ans);
-                    }
+                if(!vis[i][j] && grid[i][j] == 1){
+                    bfs(grid  , ans , vis , {i , j});
+                }
             }
         }
-        return s.size();
+        
+        return ans.size();
         
     }
 };
