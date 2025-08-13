@@ -5,34 +5,31 @@ class Solution {
         unordered_map<int , vector<pair<int , int>>> adj;
         
         for(auto ele : edges){
-            int u = ele[0];
-            int v = ele[1];
-            int w = ele[2];
-            
-            adj[u].push_back({v , w});
-            adj[v].push_back({u , w});
+            adj[ele[0]].push_back({ele[1] , ele[2]});
         }
         
-        vector<int> dis(V , 1e9);
-        dis[src] = 0;
-        priority_queue<pair<int , int> , vector<pair<int , int>> , greater<pair<int , int>>> pq;
+        vector<int> ans(V , 1e9);
+        
+        priority_queue<pair<int , int> , vector<pair<int , int>> , greater<pair<int , int>>>pq;
         pq.push({0 , src});
+        ans[src] = 0;
         
         while(!pq.empty()){
             int node = pq.top().second;
-            int nw = pq.top().first;
+            int wt = pq.top().first;
             pq.pop();
+            
             for(auto ele : adj[node]){
-                int nele = ele.first;
-                int wele = ele.second;
-                if((nw+wele) < dis[nele]){
-                    dis[nele] = nw+wele;
-                    pq.push({dis[nele] , nele});
+                int e = ele.first;
+                int w = ele.second;
+                if(wt+w<ans[e]){
+                    ans[e] = w+wt;
+                    pq.push({ans[e] , e});
                 }
             }
         }
         
-        return dis;
+        return ans;
         
     }
 };
