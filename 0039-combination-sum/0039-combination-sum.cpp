@@ -1,27 +1,30 @@
 class Solution {
 public:
-
-    void findCombinations(vector<int> &arr , vector<vector<int>> &ans , vector<int> &temp , int index , int target){
-        if(target<=0 || index >= arr.size()){
-            if(target == 0){
-                ans.push_back(temp);
-            }
-            return;
+    void totalSub(vector<vector<int>> &ans , vector<int> sub , vector<int> &arr , int target , int index){
+        if(index == arr.size()){
+            if(target == 0) ans.push_back(sub);
+            return ;
         }
-
         if(arr[index]<=target){
-            temp.push_back(arr[index]);
-            findCombinations(arr , ans , temp , index , target-arr[index]);
-            temp.pop_back();
+        sub.push_back(arr[index]);
+        target -= arr[index];
+        totalSub(ans , sub , arr , target , index);
+        target += arr[index];
+        sub.pop_back();
         }
-            findCombinations(arr , ans , temp , index+1 , target);
+
+        // target += arr[index];
+        totalSub(ans , sub , arr , target , index+1);
+
+
 
     }
-    vector<vector<int>> combinationSum(vector<int>& arr, int target) {
-        vector<int> combination;
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
         vector<vector<int>> ans;
+        vector<int> sub;
 
-        findCombinations(arr , ans , combination , 0 , target);
+        totalSub(ans , sub , candidates , target , 0);
+
         return ans;
         
     }
