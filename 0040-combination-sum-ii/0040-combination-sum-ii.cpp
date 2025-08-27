@@ -1,37 +1,31 @@
+
+
 class Solution {
 public:
-    void findGroup(vector<int> &arr , set<vector<int>> &ans , vector<int> &group , int index , int target){
-        if(index >= arr.size()){
-            if(target == 0){
-                ans.insert(group);
-            }
+    void findGroup(vector<int> &arr , vector<vector<int>> &ans , vector<int> &group , int index , int target){
+        if(target == 0){
+            ans.push_back(group);
             return;
         }
-            if(arr[index]<=target){
-                group.push_back(arr[index]);
-                findGroup(arr , ans , group , index+1 , target-arr[index]);
-                group.pop_back();
+        for(int i = index ; i<arr.size() ; i++){
+            if(i>index && arr[i] == arr[i-1]){
+                continue;
             }
-            findGroup(arr , ans , group , index+1 , target);
-        
+            if(arr[i]>target) break;
+            group.push_back(arr[i]);
+            findGroup(arr , ans , group , i+1 , target-arr[i]);
+            group.pop_back();
+        }
+
     }
     vector<vector<int>> combinationSum2(vector<int>& arr, int target) {
-
-        vector<vector<int>> a;
-        vector<int> group;
+        vector<vector<int>> ans;
         sort(arr.begin() , arr.end());
-        set<vector<int>> ans;
 
-
+        vector<int> group;//to store combination
 
         findGroup(arr , ans , group , 0 , target);
 
-        for(vector<int> i : ans){
-            a.push_back(i);
-        }
-
-        return a;
-
-        
+        return ans;
     }
 };
