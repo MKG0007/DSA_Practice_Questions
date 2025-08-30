@@ -26,12 +26,33 @@ class Solution {
       return dp[index][prev] = maxChoice;
   }
     int maximumPoints(vector<vector<int>>& arr) {
+        
         int row = arr.size();
         int col = arr[0].size();
         
-        vector<vector<int>> dp(row+1 , vector<int>(col+1 , -1));
         
-        return findMax(dp , arr , row-1 , 3);
+        vector<vector<int>> dp(row , vector<int>(col+1 , -1));
+        
+        dp[0][0] = max(arr[0][1] , arr[0][2]);
+        dp[0][2] = max(arr[0][1] , arr[0][0]);
+        dp[0][1] = max(arr[0][2] , arr[0][0]);
+        dp[0][3] = max({arr[0][0] , arr[0][1] , arr[0][2]});
+        
+        
+        for(int day = 1 ; day<row ; day++){
+            
+            for(int last = 0 ; last<4 ; last++){
+                dp[day][last] = 0;
+                for(int task = 0 ; task<3 ; task++){
+                    if(last == task) continue;
+                    int path = arr[day][task]+dp[day-1][task];
+                    
+                    dp[day][last] = max(dp[day][last] , path);
+                }
+            }
+        }
+        
+        return dp[row-1][3];
         
     }
 };
