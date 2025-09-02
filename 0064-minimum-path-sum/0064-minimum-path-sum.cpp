@@ -1,29 +1,23 @@
 class Solution {
 public:
-  
-    int path(vector<vector<int>> &dp ,vector<vector<int>>& arr , int m , int n){
-        if(m<0 || n<0) return INT_MAX;
 
-        if(dp[m][n] != -1) return dp[m][n];
+    int path(vector<vector<int>> &dp , vector<vector<int>> &arr , int i , int j , int row , int col){
+        if(i<0 || i>row || j<0 || j>col) return 1e7;
 
-        if(m == 0 && n == 0){
-            return arr[m][n];
-        }
-        
-        int up = path(dp , arr, m-1 , n);
-        int left = path(dp , arr, m , n-1);
+        if(i == 0 && j == 0) return arr[i][j];
+        if(dp[i][j] != -1) return dp[i][j];
+        int p1 = arr[i][j] + path(dp , arr , i-1 , j , row , col);
+        int p2 = arr[i][j] + path(dp , arr , i , j-1 , row , col);
 
-        int res = INT_MAX;
-        if(left != INT_MAX) res = min(res,arr[m][n] + left);
-        if(up != INT_MAX) res = min(res, arr[m][n] + up);
-        
-        return dp[m][n] = res;
+        return dp[i][j] = min(p1 , p2);
     }
-    int minPathSum(vector<vector<int>>& arr) {
-        int m = arr.size();
-        int n = arr[0].size();
-        vector<vector<int>> dp(m , vector<int>(n , -1));
-        return path( dp ,arr ,m-1 , n-1);
+    int minPathSum(vector<vector<int>>& grid) {
+        int row = grid.size();
+        int col = grid[0].size();
+        vector<vector<int>> dp(row+1 , vector<int>(col+1 , -1));
 
+        return path(dp , grid , row-1 , col-1 , row , col);
+
+        
     }
 };
