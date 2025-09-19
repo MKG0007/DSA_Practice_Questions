@@ -17,9 +17,11 @@ public:
                     end = max(end , arr[j][1]); 
                 }
                 else{
+                    i = j-1;
                     break;
                 }
             }
+
 
             ans.push_back({start , end});
         }
