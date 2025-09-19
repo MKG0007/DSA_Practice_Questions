@@ -1,10 +1,12 @@
 class Solution {
   public:
     void nextPermutation(vector<int>& arr) {
+        // code here
         int size = arr.size();
+        
         int index = -1;
         
-        for(int i = size-2 ; i>=0 ; i--){
+        for(int i = size - 2 ; i>=0 ; i--){
             if(arr[i]<arr[i+1]){
                 index = i;
                 break;
@@ -16,15 +18,15 @@ class Solution {
             return;
         }
         
-        for(int i = size-1 ; i>index ; i--){
-            if(arr[index]<arr[i]){
-                swap(arr[index] , arr[i]);
+        for(int i = size-1 ; i>=0 ; i--){
+            if(arr[index]<arr[i]) {
+                swap(arr[i] , arr[index]); 
                 break;
+                
             }
         }
         
-        sort(arr.begin()+index+1 , arr.end());
-        
+        sort(arr.begin() +index+1 , arr.end());
         
     }
 };
