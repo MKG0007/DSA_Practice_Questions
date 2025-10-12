@@ -1,40 +1,46 @@
 class Solution {
 public:
-  void fnDfs(vector<vector<char>> &mat , vector<vector<int >> &vis , vector<pair<int , int>> &d ,  int i , int j){
-      vis[i][j] = 1;
-      
-      for(auto dd : d){
-          int di = dd.first + i;
-          int dj = dd.second + j;
-          
-          if(di>=0 && di<mat.size() && dj>=0 && dj<mat[0].size() && !vis[di][dj] && mat[di][dj] == 'O'){
-               fnDfs(mat , vis , d , di , dj);
-          }
-      }
-  }
-    void solve(vector<vector<char>>& mat) {
-         
-        int vertex = mat.size();
-        int edge = mat[0].size();
-        vector<vector<int>> vis(vertex , vector<int>(edge , 0));
-        vector<pair<int , int>> d = { {1 , 0}  , {0 , 1} , {-1 , 0} , {0 , -1}};
-        for(int i = 0 ; i<vertex ; i++){
-            for(int j = 0 ; j<edge ; j++){
-                if(i == 0 || j == 0 || i == vertex-1 || j == edge-1){
-                    if(!vis[i][j] && mat[i][j] == 'O'){
-                        fnDfs(mat , vis , d , i , j);
+    void solve(vector<vector<char>>& adj) {
+        int row = adj.size();
+        int col = adj[0].size();
+        vector<vector<int>> vis(row , vector<int>(col , 0));
+        vector<pair<int , int>> dec = {{0 , 1} , {1 , 0} , {-1 , 0} , {0 , -1}};
+
+        queue<pair<int , int>> q;
+        for(int i = 0 ; i<row ; i++){
+            for(int j = 0 ; j<col ; j++){
+                if(i == 0 || i == row-1 || j == 0 || j == col-1){
+                    if(adj[i][j] == 'O'){
+                        q.push({i , j});
+                        vis[i][j] = 1;
                     }
                 }
             }
         }
-        
-        for(int i = 0 ; i<vertex ; i++){
-            for(int j = 0  ; j<edge ; j++){
-                if(!vis[i][j]  && mat[i][j] == 'O'){
-                    mat[i][j] = 'X';
+
+        while(!q.empty()){
+            auto node = q.front();
+            q.pop();
+
+            for(auto d : dec){
+                int di = d.first + node.first;
+                int dj = d.second + node.second;
+
+                if(di>=0 && dj>=0 && di<row && dj<col && !vis[di][dj] && adj[di][dj] == 'O'){
+                    vis[di][dj] = 1;
+                    q.push({di , dj});
                 }
             }
         }
+
+
+        for(int i = 0 ; i<row ; i++){
+            for(int j = 0 ; j<col ; j++){
+                if(!vis[i][j] && adj[i][j] == 'O'){
+                    adj[i][j] = 'X';
+                }
+            }
+        }  
         
     }
 };
