@@ -1,15 +1,15 @@
 class Solution {
 public:
     bool kLengthApart(vector<int>& nums, int k) {
-        unordered_map<int , int > m;
+        int prev = -1;
 
         for(int i = 0 ; i<nums.size() ; i++){
             if(nums[i] == 1){
-                if(m.find(nums[i]) != m.end()){
-                    int num = m[nums[i]];
-                    if( (i-num)-1 < k) return false;
+                int ch = i-prev-1;
+                if(prev != -1 && ch < k){
+                    return false;
                 }
-                m[nums[i]] = i;
+                prev = i;
             }
 
         }
