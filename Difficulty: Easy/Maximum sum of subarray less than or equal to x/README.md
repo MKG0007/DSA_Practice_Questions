@@ -1,0 +1,9 @@
+<h2><a href="https://www.geeksforgeeks.org/problems/maximum-sum-of-subarray-less-than-or-equal-to-x4033/1">Maximum sum of subarray less than or equal to x</a></h2><h3>Difficulty Level : Difficulty: Easy</h3><hr><div class="problems_problem_content__Xm_eO"><p><span style="font-size: 14pt;">Given an array <strong>arr[]</strong> of integers and a number <strong>x</strong>, the task is to find the sum of subarray having a maximum sum less than or equal to the given value of <strong>x</strong>.</span></p>
+<p><span style="font-size: 14pt;"><strong>Examples:</strong></span></p>
+<pre><span style="font-size: 14pt;"><strong>Input: </strong>arr[] = [1, 2, 3, 4, 5], x = 11 
+<strong>Output:</strong> 10
+<strong>Explanation</strong>: Subarray having maximum sum is [1, 2, 3, 4].</span></pre>
+<pre><span style="font-size: 14pt;"><strong>Input: </strong>arr[] = [2, 4, 6, 8, 10], x = 7 </span><br><span style="font-size: 14pt;"><strong>Output:</strong> 6
+<strong>Explanation:</strong> Subarray having maximum sum is [2, 4] or [6].</span></pre>
+<p><span style="font-size: 14pt;"><strong>Expected Time Complexity:</strong> O(n).&nbsp;<br><strong>Expected Auxiliary Space:</strong> O(1).</span></p>
+<p><span style="font-size: 14pt;"><strong>Constraints:</strong><br>1 ≤ arr.size() ≤ 10<sup>6<br></sup></span><span style="font-size: 18.6667px;">1 ≤ arr[i] ≤ 10</span><sup>6<br></sup><span style="font-size: 18.6667px;">1 ≤ x ≤ 10</span><sup>12</sup></p></div><br><p><span style=font-size:18px><strong>Topic Tags : </strong><br><code>sliding-window</code>&nbsp;<code>two-pointer-algorithm</code>&nbsp;<code>Arrays</code>&nbsp;<code>Data Structures</code>&nbsp;<code>Algorithms</code>&nbsp;
