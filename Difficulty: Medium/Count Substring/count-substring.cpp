@@ -1,16 +1,21 @@
 class Solution {
   public:
-    int countSubstring(string s) {
-        int size = s.length();
-        int count =0;
-        vector<int> check(3 , -1);
+    int countSubstring(string arr) {
+        int size = arr.length();
+        
+        int count = 0;
+        
         for(int i = 0 ; i<size ; i++){
-            check[s[i]-'a'] = i;
-            if(check[0] != -1 && check[1] != -1 && check[2] != -1){
-                count += 1+ min(check[0] , min(check[1] , check[2]));
+            vector<int> check(3 , -1);
+            for(int j = i ; j<size ; j++){
+                check[arr[j]-'a'] = 1;
+                if(check[0] + check[1] + check[2] == 3){
+                    count += size-j;
+                    break;
+                }
+                
             }
         }
-        
         
         return count;
         
