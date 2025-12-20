@@ -1,19 +1,20 @@
 class Solution {
 public:
-    int path(vector<vector<int>> &dp , int m , int n , int row  , int col){
-        if(m<0 || m>row || n<0 || n>col) return 0;
 
-        if(m == 0 && n == 0) return 1;
-        if(dp[m][n] != -1) return dp[m][n];
-        int p1 = path(dp , m-1 , n , row , col);
-        int p2 = path(dp , m , n-1 , row , col);
 
-        return dp[m][n] = p1+p2;
-    }
+int helper(int row , int col , int i , int j , vector<vector<int>> &dp){
+
+    if(i<0 || j<0 || i>=row || j>=col) return 0;
+    if(i == 0 && j == 0) return 1;
+    if(dp[i][j] != -1) return dp[i][j];
+    int left = helper(row , col , i-1 , j , dp);
+    int up = helper(row , col , i , j-1 , dp);
+
+    return dp[i][j] = up + left;
+}
     int uniquePaths(int m, int n) {
-        vector<vector<int>> dp(m+1 , vector<int>(n+1 , -1));
-
-        return path(dp , m-1 , n-1 , m , n);
-        
+        vector<vector<int>> dp(m , vector(n , -1));
+        return helper(m , n , m-1 , n-1 , dp);
     }
+
 };
