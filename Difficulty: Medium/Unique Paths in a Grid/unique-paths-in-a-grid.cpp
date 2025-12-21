@@ -3,7 +3,7 @@ class Solution {
     int uniquePaths(vector<vector<int>> &grid) {
         int rows = grid.size();
         int cols = grid[0].size();
-                if (grid[0][0] == 1) return 0;
+        if (grid[0][0] == 1) return 0;
         vector<vector<int>> dp(rows , vector<int>(cols , 0));
         for(int i = 0 ; i<rows ; i++){
             for(int j = 0 ; j<cols ; j++){
