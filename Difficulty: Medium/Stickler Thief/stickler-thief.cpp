@@ -1,25 +1,19 @@
 class Solution {
   public:
+  
+  int helper(vector<int> &arr , vector<int> &dp , int index){
+      if(index == 0) return arr[0];
+      if(index<0) return 0;
+      if(dp[index] != -1 ) return dp[index];
+      int take = arr[index] + helper(arr , dp , index-2);
+      int ntake = helper(arr , dp , index-1);
+      
+      return dp[index] = max(take , ntake);
+  }
     int findMaxSum(vector<int>& arr) {
         // code here
         int size = arr.size();
-        
-        int prev = arr[0];
-        int prev2 = 0;
-        
-        for(int i = 1 ; i<size ; i++){
-            int pick = arr[i];
-            
-            if(i>1) pick += prev2;
-            int npick = 0 + prev;
-            
-            int crr = max(pick , npick);
-            
-            prev2 = prev;
-            prev = crr;
-            
-        }
-        
-        return prev;
+        vector<int> dp(size , -1);
+        return helper(arr , dp , size-1);
     }
 };
