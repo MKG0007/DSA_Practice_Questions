@@ -1,19 +1,24 @@
 class Solution {
 public:
-int helper(vector<vector<int>> &arr , int i , int j , int row , int col , vector<vector<int>> &dp){
-    if(i <0 || j<0 || i>=row || j>=col) return 1e8;
-    if(i == 0 && j == 0) return arr[i][j];
-    if(dp[i][j] != -1) return dp[i][j];
-    int up = arr[i][j] + helper(arr , i-1 , j , row , col , dp);
+    int minPathSum(vector<vector<int>>& arr) {
+        int row = arr.size();
+        int col = arr[0].size();
+        vector<vector<int>> dp(row , vector<int>(col , 0));
+        dp[0][0] = arr[0][0];
+        for(int i = 0 ; i<row ; i++){
+            for(int j = 0 ; j<col ; j++){
+                if(i == 0 && j == 0) continue;
 
-    int left = arr[i][j] + helper(arr , i , j-1 , row , col , dp);
+                int up = 1e8;
+                int down = 1e8;
 
-    return dp[i][j] = min(up , left);
-}
-    int minPathSum(vector<vector<int>>& grid) {
-        int row = grid.size();
-        int col = grid[0].size();
-        vector<vector<int>> dp(row , vector<int>(col , -1));
-        return helper(grid , row-1 , col-1 , row , col , dp);
+                if(i>0) up = arr[i][j] + dp[i-1][j];
+                if(j>0) down = arr[i][j] + dp[i][j-1];
+
+                dp[i][j] = min(up , down);
+            }
+        }
+
+        return dp[row-1][col-1];
     }
 };
