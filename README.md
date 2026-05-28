@@ -35,3 +35,19 @@ This repo is my personal space to:
   - Focus on optimal approaches (with edge cases handled)
 
 ---
+
+<!---LeetCode Topics Start-->
+# LeetCode Topics
+## Array
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [0064-minimum-path-sum](https://github.com/MKG0007/DSA_Practice_Questions/tree/main/0064-minimum-path-sum/) | Medium |
+## Dynamic Programming
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [0064-minimum-path-sum](https://github.com/MKG0007/DSA_Practice_Questions/tree/main/0064-minimum-path-sum/) | Medium |
+## Matrix
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [0064-minimum-path-sum](https://github.com/MKG0007/DSA_Practice_Questions/tree/main/0064-minimum-path-sum/) | Medium |
+<!---LeetCode Topics End-->
