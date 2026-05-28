@@ -1,25 +1,23 @@
 class Solution {
   public:
+  
+  int helper(vector<vector<int>> &arr , int i , int j , int row , int col , vector<vector<int>> &dp){
+      if(i<0 || j<0 || i>=row || j>=col || arr[i][j] == 1) return 0;
+      
+      if(i == 0 && j == 0) return 1;
+      
+      if(dp[i][j] != -1) return dp[i][j];
+      int up = helper(arr , i-1 , j , row , col , dp);
+      
+      int left = helper(arr , i , j-1 , row , col , dp);
+      
+      return dp[i][j] = up +left;
+  }
     int uniquePaths(vector<vector<int>> &grid) {
-        int rows = grid.size();
-        int cols = grid[0].size();
-        if (grid[0][0] == 1) return 0;
-        vector<int> dp(cols , 0);
-        for(int i = 0 ; i<rows ; i++){
-            vector<int> crr(cols , 0);
-            for(int j = 0 ; j<cols ; j++){
-                if(i == 0 && j == 0) crr[0] = 1;
-                else if(grid[i][j] == 0){
-                    int num  = 0;
-                    if(i>0) num += dp[j];
-                    if(j>0) num += crr[j-1];
-                    crr[j] = num;
-                }
-            }
-            dp = crr;
-        }
-        
-        return dp[cols-1];
-        
+        // code here
+        int row = grid.size();
+        int col = grid[0].size();
+        vector<vector<int>> dp(row , vector<int>(col , -1));
+        return helper(grid , row-1 , col-1 , row , col , dp);
     }
 };
